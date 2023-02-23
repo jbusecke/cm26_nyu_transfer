@@ -1,0 +1,19 @@
+#/bin/bash
+YEARFILE="filelist.txt"
+# Replace with test folder and eventually the proper source destination
+SOURCE="/Users/juliusbusecke/Desktop/NYU_Transfer/source/a/b" # no trailing slashes here!
+TARGET="/Users/juliusbusecke/Desktop/NYU_Transfer/target"
+
+# I cannot test this locally, but uncomment when you are on the GFDL system
+# # loop over all years and send a dmget for each into the queue
+# while read year; do
+#     dmget $SOURCE/$year &
+# done <$YEARFILE
+
+# loop over all of the years and execute the rsync 
+#(remove the `--dry-run`` when you are confident this is doing the right thing)
+while read year; do 
+  echo "============================="
+  echo "Copying file for year $year"
+  rsync -avR --dry-run --include=$year --exclude="*.nc" $SOURCE $TARGET
+done <$YEARFILE
